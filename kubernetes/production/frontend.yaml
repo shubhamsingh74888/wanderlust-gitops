@@ -19,7 +19,7 @@ spec:
         - name: frontend
           image: shubham74888/wanderlust-frontend:frontend-b84
           ports:
-            - containerPort: 3000
+            - containerPort: 80
           resources:
             requests:
               cpu: "50m"
@@ -30,13 +30,13 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: 3000
+              port: 80
             initialDelaySeconds: 10
             periodSeconds: 5
           livenessProbe:
             httpGet:
               path: /
-              port: 3000
+              port: 80
             initialDelaySeconds: 20
             periodSeconds: 15
 ---
@@ -51,5 +51,5 @@ spec:
     app: frontend
   ports:
     - port: 80
-      targetPort: 3000
+      targetPort: 80
       protocol: TCP
