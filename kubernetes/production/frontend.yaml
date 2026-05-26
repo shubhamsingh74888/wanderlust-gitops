@@ -12,7 +12,6 @@ spec:
       app: frontend
   template:
     metadata:
-      name: frontend
       labels:
         app: frontend
     spec:
@@ -20,7 +19,7 @@ spec:
         - name: frontend
           image: shubham74888/wanderlust-frontend:frontend-b68
           ports:
-            - containerPort: 80
+            - containerPort: 3000
           resources:
             requests:
               cpu: "100m"
@@ -31,13 +30,13 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: 80
+              port: 3000
             initialDelaySeconds: 10
             periodSeconds: 5
           livenessProbe:
             httpGet:
               path: /
-              port: 80
+              port: 3000
             initialDelaySeconds: 20
             periodSeconds: 15
 ---
@@ -51,7 +50,7 @@ spec:
   selector:
     app: frontend
   ports:
-    - port: 80
-      targetPort: 80
+    - port: 3000
+      targetPort: 3000
       protocol: TCP
       nodePort: 31000
