@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: shubham74888/wanderlust-frontend:frontend-b68
+          image: shubham74888/wanderlust-frontend:frontend-b82
           ports:
             - containerPort: 3000
           resources:
