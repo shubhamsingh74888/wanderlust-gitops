@@ -17,16 +17,16 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: shubham74888/wanderlust-frontend:frontend-b82
+          image: shubham74888/wanderlust-frontend:frontend-b84
           ports:
             - containerPort: 3000
           resources:
             requests:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: "50m"
+              memory: "64Mi"
             limits:
-              cpu: "500m"
-              memory: "512Mi"
+              cpu: "300m"
+              memory: "256Mi"
           readinessProbe:
             httpGet:
               path: /
@@ -46,11 +46,10 @@ metadata:
   name: frontend-service
   namespace: wanderlust
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: frontend
   ports:
-    - port: 3000
+    - port: 80
       targetPort: 3000
       protocol: TCP
-      nodePort: 31000

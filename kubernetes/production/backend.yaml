@@ -17,25 +17,25 @@ spec:
     spec:
       containers:
         - name: backend
-          image: shubham74888/wanderlust-backend:backend-b82
+          image: shubham74888/wanderlust-backend:backend-b84
           ports:
             - containerPort: 5000
           resources:
             requests:
-              cpu: "150m"
-              memory: "256Mi"
+              cpu: "100m"
+              memory: "128Mi"
             limits:
-              cpu: "750m"
-              memory: "768Mi"
+              cpu: "500m"
+              memory: "512Mi"
           readinessProbe:
             httpGet:
-              path: /api/health
+              path: /
               port: 5000
             initialDelaySeconds: 15
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /api/health
+              path: /
               port: 5000
             initialDelaySeconds: 30
             periodSeconds: 20
@@ -58,11 +58,10 @@ metadata:
   name: backend-service
   namespace: wanderlust
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: backend
   ports:
     - port: 5000
       targetPort: 5000
       protocol: TCP
-      nodePort: 31100
