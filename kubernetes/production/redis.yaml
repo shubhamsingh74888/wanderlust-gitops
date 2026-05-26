@@ -12,22 +12,27 @@ spec:
       app: redis
   template:
     metadata:
-      name: redis
       labels:
         app: redis
     spec:
       containers:
         - name: redis
-          image: redis
+          image: redis:7-alpine
           ports:
             - containerPort: 6379
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
           volumeMounts:
-            - name: mongo-storage
-              mountPath: /var/lib/redis/dump.rdb
+            - name: redis-data
+              mountPath: /data          # correct redis data dir
       volumes:
-        - name: mongo-storage
-          persistentVolumeClaim:
-            claimName: mongo-pvc
+        - name: redis-data
+          emptyDir: {}                  # ephemeral — fine for cache/session store
 ---
 apiVersion: v1
 kind: Service
