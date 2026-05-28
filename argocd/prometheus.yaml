@@ -1,0 +1,85 @@
+# ============================================================
+#  kubernetes/argocd-apps/prometheus.yaml
+#  ArgoCD Application — deploys kube-prometheus-stack via Helm.
+#
+#  HOW IT WORKS:
+#  ArgoCD reads this manifest and installs the Helm chart into
+#  the monitoring namespace. Unlike Terraform, ArgoCD will keep
+#  retrying indefinitely if pods are slow to start — no timeouts.
+#
+#  APPLY THIS MANUALLY (once, after Stage 04 finishes):
+#    kubectl apply -f kubernetes/argocd-apps/prometheus.yaml
+#
+#  OR let bootstrap-gitops.sh apply it automatically (see below).
+# ============================================================
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+  # Tells ArgoCD to delete child resources when this Application is deleted
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: "86.0.1"
+    helm:
+      values: |
+        grafana:
+          adminPassword: "WanderlustGrafana2024!"
+          service:
+            type: LoadBalancer
+
+        # Prevents Grafana from losing dashboards on pod restart
+        grafana:
+          adminPassword: "WanderlustGrafana2024!"
+          service:
+            type: LoadBalancer
+          persistence:
+            enabled: false   # set to true + add storageClassName if you have EBS CSI
+
+        prometheus:
+          prometheusSpec:
+            retention: 7d
+            resources:
+              requests:
+                memory: "400Mi"
+                cpu: "200m"
+              limits:
+                memory: "1Gi"
+                cpu: "500m"
+
+        alertmanager:
+          alertmanagerSpec:
+            resources:
+              requests:
+                memory: "100Mi"
+                cpu: "50m"
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+
+  syncPolicy:
+    # ArgoCD will auto-create the monitoring namespace
+    syncOptions:
+      - CreateNamespace=true
+      # Required for kube-prometheus-stack — it has Server-Side Apply resources
+      - ServerSideApply=true
+
+    automated:
+      # Auto-sync when this file changes in Git
+      selfHeal: true
+      prune: true
+
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 2
+        maxDuration: 5m
