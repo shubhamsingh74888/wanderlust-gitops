@@ -4,10 +4,9 @@ metadata:
   name: wanderlust-ebs
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
-provisioner: ebs.csi.aws.com
+provisioner: kubernetes.io/aws-ebs
 volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Retain
 parameters:
-  type: gp3
-  csi.storage.k8s.io/fstype: ext4
-  encrypted: "false"
+  type: gp2
+  fsType: ext4

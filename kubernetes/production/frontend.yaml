@@ -39,6 +39,9 @@ spec:
               port: 80
             initialDelaySeconds: 20
             periodSeconds: 15
+          env:
+            - name: VITE_API_PATH
+              value: "http://a232ebeb4b7904bd196e65a0b48b67e9-1799000887.ap-south-1.elb.amazonaws.com:5000"
 ---
 apiVersion: v1
 kind: Service

@@ -31,14 +31,16 @@ spec:
             httpGet:
               path: /
               port: 5000
-            initialDelaySeconds: 15
+            initialDelaySeconds: 30
             periodSeconds: 10
+            failureThreshold: 5
           livenessProbe:
             httpGet:
               path: /
               port: 5000
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 20
+            failureThreshold: 5
           env:
             - name: NODE_ENV
               value: "production"
@@ -51,6 +53,8 @@ spec:
               value: "redis://redis-service:6379"
             - name: PORT
               value: "5000"
+            - name: CORS_ORIGIN
+              value: "http://a092ee4bb496e4174a7b194f2fa0555e-1903976363.ap-south-1.elb.amazonaws.com"
 ---
 apiVersion: v1
 kind: Service
