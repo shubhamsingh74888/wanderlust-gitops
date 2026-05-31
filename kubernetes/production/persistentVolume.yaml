@@ -1,13 +1,3 @@
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: wanderlust-ebs
-  annotations:
-    argocd.argoproj.io/sync-options: "Prune=false"
-    storageclass.kubernetes.io/is-default-class: "false"
-provisioner: kubernetes.io/aws-ebs
-volumeBindingMode: WaitForFirstConsumer
-reclaimPolicy: Retain
-parameters:
-  type: gp2
-  fsType: ext4
+# StorageClass removed — using EKS default (gp2) to avoid ArgoCD OutOfSync loop.
+# The wanderlust-ebs StorageClass had immutable fields that ArgoCD
+# could never reconcile after first creation, causing permanent OutOfSync.
