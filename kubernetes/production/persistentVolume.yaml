@@ -3,6 +3,7 @@ kind: StorageClass
 metadata:
   name: wanderlust-ebs
   annotations:
+    argocd.argoproj.io/sync-options: "Prune=false"
     storageclass.kubernetes.io/is-default-class: "false"
 provisioner: kubernetes.io/aws-ebs
 volumeBindingMode: WaitForFirstConsumer
