@@ -5,10 +5,11 @@ metadata:
   namespace: wanderlust
   annotations:
     argocd.argoproj.io/sync-options: Replace=true
+    argocd.argoproj.io/compare-options: IgnoreExtraneous=true
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: gp2        # ← was wanderlust-ebs (does not exist); gp2 is EKS default
+  storageClassName: gp2
   resources:
     requests:
       storage: 5Gi
