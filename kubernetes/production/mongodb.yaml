@@ -16,8 +16,6 @@ spec:
       labels:
         app: mongo
     spec:
-      # Fix EBS volume ownership before MongoDB starts
-      # MongoDB runs as uid 999 — EBS volumes mount as root by default
       initContainers:
         - name: fix-permissions
           image: busybox
@@ -37,22 +35,18 @@ spec:
             limits:
               cpu: "500m"
               memory: "512Mi"
+          # TCP probe — just checks port 27017 is open
+          # Much more reliable than exec mongosh which can time out
           readinessProbe:
-            exec:
-              command:
-                - mongosh
-                - --eval
-                - "db.adminCommand('ping')"
-            initialDelaySeconds: 20
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 15
             periodSeconds: 10
             failureThreshold: 6
           livenessProbe:
-            exec:
-              command:
-                - mongosh
-                - --eval
-                - "db.adminCommand('ping')"
-            initialDelaySeconds: 40
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 30
             periodSeconds: 20
             failureThreshold: 5
           volumeMounts:
