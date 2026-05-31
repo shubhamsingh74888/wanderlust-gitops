@@ -40,8 +40,13 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 15
           env:
+            # ✅ Read from ConfigMap — update configmap.yaml when ELB changes
+            # Never hardcode ELB URLs here — they change every terraform cycle
             - name: VITE_API_PATH
-              value: "http://a232ebeb4b7904bd196e65a0b48b67e9-1799000887.ap-south-1.elb.amazonaws.com:5000"
+              valueFrom:
+                configMapKeyRef:
+                  name: wanderlust-config
+                  key: backend-url
 ---
 apiVersion: v1
 kind: Service

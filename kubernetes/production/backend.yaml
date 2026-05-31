@@ -53,8 +53,10 @@ spec:
               value: "redis://redis-service:6379"
             - name: PORT
               value: "5000"
+            # ✅ Wildcard CORS — works across terraform destroy/apply cycles
+            # ELB URLs change every redeploy so never hardcode them here
             - name: CORS_ORIGIN
-              value: "http://a092ee4bb496e4174a7b194f2fa0555e-1903976363.ap-south-1.elb.amazonaws.com"
+              value: "*"
 ---
 apiVersion: v1
 kind: Service

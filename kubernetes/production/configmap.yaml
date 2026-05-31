@@ -1,0 +1,9 @@
+iapiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wanderlust-config
+  namespace: wanderlust
+data:
+  # ✅ Update ONLY this file when backend ELB URL changes after terraform redeploy
+  # Get current backend URL: kubectl get svc backend-service -n wanderlust -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+  backend-url: "http://ad4ebf4733fc64f7a94512d83e170e68-290714520.ap-south-1.elb.amazonaws.com:5000"
