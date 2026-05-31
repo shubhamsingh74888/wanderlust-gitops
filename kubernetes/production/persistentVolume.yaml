@@ -1,3 +1,0 @@
-# StorageClass removed — using EKS default (gp2) to avoid ArgoCD OutOfSync loop.
-# The wanderlust-ebs StorageClass had immutable fields that ArgoCD
-# could never reconcile after first creation, causing permanent OutOfSync.
