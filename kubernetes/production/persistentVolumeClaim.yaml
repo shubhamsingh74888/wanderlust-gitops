@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: wanderlust-ebs
+  storageClassName: gp2        # ← was wanderlust-ebs (does not exist); gp2 is EKS default
   resources:
     requests:
       storage: 5Gi
