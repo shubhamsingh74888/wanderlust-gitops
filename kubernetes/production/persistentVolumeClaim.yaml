@@ -3,10 +3,12 @@ kind: PersistentVolumeClaim
 metadata:
   name: mongo-pvc
   namespace: wanderlust
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: gp2
+  storageClassName: wanderlust-ebs
   resources:
     requests:
       storage: 5Gi
