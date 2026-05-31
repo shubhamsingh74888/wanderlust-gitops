@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: shubham74888/wanderlust-backend:backend-b159
+          image: shubham74888/wanderlust-backend:backend-b164
           ports:
             - containerPort: 5000
           resources:
